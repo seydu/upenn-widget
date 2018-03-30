@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: seydu
- * Date: 3/29/18
- * Time: 9:28 AM
- */
 
 namespace App\Manager;
 

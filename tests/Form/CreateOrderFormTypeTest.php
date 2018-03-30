@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: seydu
- * Date: 3/27/18
- * Time: 11:02 AM
- */
 
 namespace App\Tests\Form;
 

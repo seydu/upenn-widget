@@ -46,6 +46,34 @@ class WidgetOrderManagerTest extends WebTestCase
         ])->getReferenceRepository();
     }
 
+    private function validate(WidgetOrder $widgetOrder)
+    {
+        $errors = $this->getContainer()->get('validator')->validate($widgetOrder);
+        return [count($errors) == 0, $errors];
+    }
+
+    public function testValidation()
+    {
+        /**
+         * @var Color
+         */
+        $color = $this->fixtures->getReference('Color-red');
+        /**
+         * @var WidgetType
+         */
+        $widgetType = $this->fixtures->getReference('WidgetType-widget');
+
+        $widgetOrder = new WidgetOrder();
+        $widgetOrder->setQuantity(3);
+        $widgetOrder->setNeededBy((new \DateTime())->modify('+8 day'));
+        $widgetOrder->setColor($color);
+        $widgetOrder->setWidgetType($widgetType);
+        list($isValid, $errors) = $this->validate($widgetOrder);
+        $this->assertTrue($isValid, (string)$errors);
+        $this->widgetOrderManager->save($widgetOrder);
+        $this->assertEmpty($widgetOrder->getUser());
+    }
+
     public function testSave()
     {
         /**
@@ -59,9 +87,11 @@ class WidgetOrderManagerTest extends WebTestCase
 
         $widgetOrder = new WidgetOrder();
         $widgetOrder->setQuantity(3);
-        $widgetOrder->setNeededBy(new \DateTime());
+        $widgetOrder->setNeededBy((new \DateTime())->modify('+8 day'));
         $widgetOrder->setColor($color);
         $widgetOrder->setWidgetType($widgetType);
+        list($isValid, $errors) = $this->validate($widgetOrder);
+        $this->assertTrue($isValid, (string)$errors);
         $this->widgetOrderManager->save($widgetOrder);
         $this->assertEmpty($widgetOrder->getUser());
     }
@@ -80,9 +110,11 @@ class WidgetOrderManagerTest extends WebTestCase
 
         $widgetOrder = new WidgetOrder();
         $widgetOrder->setQuantity(3);
-        $widgetOrder->setNeededBy(new \DateTime());
+        $widgetOrder->setNeededBy((new \DateTime())->modify('+8 day'));
         $widgetOrder->setColor($color);
         $widgetOrder->setWidgetType($widgetType);
+        list($isValid, $errors) = $this->validate($widgetOrder);
+        $this->assertTrue($isValid, (string)$errors);
         $this->widgetOrderManager->save($widgetOrder, 'email@email.com');
         $this->assertNotEmpty($widgetOrder->getUser());
         $this->assertEquals('email@email.com', $widgetOrder->getUser()->getEmail());
@@ -111,11 +143,49 @@ class WidgetOrderManagerTest extends WebTestCase
 
         $widgetOrder = new WidgetOrder();
         $widgetOrder->setQuantity(3);
-        $widgetOrder->setNeededBy(new \DateTime());
+        $widgetOrder->setNeededBy((new \DateTime())->modify('+8 day'));
         $widgetOrder->setColor($color);
         $widgetOrder->setWidgetType($widgetType);
+        list($isValid, $errors) = $this->validate($widgetOrder);
+        $this->assertTrue($isValid, (string)$errors);
         $this->widgetOrderManager->save($widgetOrder, $user);
         $this->assertNotEmpty($widgetOrder->getUser());
         $this->assertEquals($user, $widgetOrder->getUser());
+    }
+
+    public function testGenerateConfirmationMessage()
+    {
+        /**
+         * @var USer
+         */
+        $user = $this->fixtures->getReference('User-superuser');
+        /**
+         * @var Color
+         */
+        $color = $this->fixtures->getReference('Color-red');
+        /**
+         * @var WidgetType
+         */
+        $widgetType = $this->fixtures->getReference('WidgetType-widget');
+
+        $widgetOrder = new WidgetOrder();
+        $widgetOrder->setQuantity(3);
+        $widgetOrder->setNeededBy((new \DateTime())->modify('+8 day'));
+        $widgetOrder->setColor($color);
+        $widgetOrder->setWidgetType($widgetType);
+        list($isValid, $errors) = $this->validate($widgetOrder);
+        $this->assertTrue($isValid, (string)$errors);
+        $this->widgetOrderManager->save($widgetOrder);
+        $message = $this->widgetOrderManager->generateConfirmationMessage($widgetOrder);
+        $this->assertContains('ID '.$widgetOrder->getId(), $message);
+        $quantityAndNames = sprintf(
+            '%d %s %s',
+            $widgetOrder->getQuantity(),
+            $widgetOrder->getColor(),
+            $widgetOrder->getWidgetType()
+        );
+        $this->assertContains($quantityAndNames, $message);
+        $this->assertContains('by '.$widgetOrder->getNeededBy()->format('D, d M Y'), $message);
+
     }
 }

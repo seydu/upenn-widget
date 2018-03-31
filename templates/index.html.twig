@@ -1,13 +1,13 @@
 {% extends 'base.html.twig' %}
 {% block body %}
 
-    <di>
+    <div>
         {% for message in app.flashes('notice') %}
             <div class="flash-notice">
                 {{ message }}
             </div>
         {% endfor %}
-    </di>
-    <a href="{{ url('app_widgetorder_order') }}">Place order</a>
+    </div>
+    <a href="{{ url('app_widgetorder_order') }}" class="order">Place order</a>
 
 {% endblock %}

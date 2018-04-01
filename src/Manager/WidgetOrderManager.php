@@ -6,6 +6,7 @@ namespace App\Manager;
 use App\Entity\User;
 use App\Entity\WidgetOrder;
 use Doctrine\Common\Persistence\ObjectManager;
+use Twig\Environment;
 
 class WidgetOrderManager
 {
@@ -16,12 +17,24 @@ class WidgetOrderManager
     private $objectManager;
 
     /**
+     * @var Environment
+     */
+    private $templating;
+
+    /**
+     * @var \Swift_Mailer
+     */
+    private $mailer;
+
+    /**
      * WidgetOrderManager constructor.
      * @param ObjectManager $objectManager
      */
-    public function __construct(ObjectManager $objectManager)
+    public function __construct(ObjectManager $objectManager, Environment $templating, \Swift_Mailer $mailer)
     {
         $this->objectManager = $objectManager;
+        $this->templating    = $templating;
+        $this->mailer        = $mailer;
     }
 
     /**
@@ -73,5 +86,25 @@ class WidgetOrderManager
             $widgetOrder->getId(),
             $widgetOrder->getNeededBy()->format('D, d M Y')
         );
+    }
+
+
+    public function sendConfirmationEmail(WidgetOrder $widgetOrder)
+    {
+        $user = $widgetOrder->getUser();
+        if(!$user) {
+            return;
+        }
+        $message = (new \Swift_Message('Widget Order Confirmation'))
+            ->setFrom('sender@example.com')
+            ->setTo($user->getEmail())
+            ->setBody(
+                $this->templating->render(
+                    'order_confirmation_email.html.twig',
+                    ['order' => $widgetOrder]
+                ),
+                'text/html'
+            );
+        $this->mailer->send($message);
     }
 }

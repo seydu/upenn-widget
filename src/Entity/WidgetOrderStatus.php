@@ -83,7 +83,7 @@ class WidgetOrderStatus
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getId()
     {
@@ -91,7 +91,7 @@ class WidgetOrderStatus
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getName()
     {
@@ -99,7 +99,7 @@ class WidgetOrderStatus
     }
 
     /**
-     * @return mixed
+     * @return int
      */
     public function getWeight()
     {
@@ -107,7 +107,7 @@ class WidgetOrderStatus
     }
 
     /**
-     * @return mixed
+     * @return string
      */
     public function getCode()
     {
@@ -121,6 +121,4 @@ class WidgetOrderStatus
     {
         return $this->WidgetOrders;
     }
-
-
 }

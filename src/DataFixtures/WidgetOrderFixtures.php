@@ -28,9 +28,14 @@ class WidgetOrderFixtures extends Fixture implements DependentFixtureInterface
                 'Color' => 'red',
                 'WidgetType' => 'widget',
                 'Status' => 'PLACED'
+            ],
+            [
+                'Color' => 'yellow',
+                'WidgetType' => 'widget-pro',
+                'Status' => 'SHIPPED'
             ]
         ];
-        foreach ($source as $data) {
+        foreach ($source as $number => $data) {
             $record = new WidgetOrder();
             /**
              * @var Color
@@ -49,6 +54,7 @@ class WidgetOrderFixtures extends Fixture implements DependentFixtureInterface
             $record->setNeededBy((new \DateTime())->modify(sprintf('+%d day', rand(8, 30))));
             $record->setColor($color);
             $record->setWidgetType($widgetType);
+            $this->setReference("WidgetOrder-$number}", $record);
             $record->setStatus($status);
             $manager->persist($record);
         }

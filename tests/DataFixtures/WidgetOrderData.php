@@ -29,7 +29,7 @@ class WidgetOrderData extends Fixture implements DependentFixtureInterface
                 'Status' => 'PLACED'
             ]
         ];
-        foreach ($source as $data) {
+        foreach ($source as $number => $data) {
             $record = new WidgetOrder();
             /**
              * @var Color
@@ -49,6 +49,7 @@ class WidgetOrderData extends Fixture implements DependentFixtureInterface
             $record->setColor($color);
             $record->setWidgetType($widgetType);
             $record->setStatus($status);
+            $this->setReference("WidgetOrder-$number", $record);
             $manager->persist($record);
         }
         $manager->flush();

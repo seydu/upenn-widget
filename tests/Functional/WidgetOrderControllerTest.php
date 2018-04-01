@@ -19,6 +19,9 @@ class WidgetOrderControllerTest extends WebTestCase
      */
     public function testCreateOrder()
     {
+        $client = $this->createClient();
+        $client->enableProfiler();
+
         $fixtures = $this->loadFixtures([
             UserData::class,
             ColorData::class,
@@ -27,7 +30,6 @@ class WidgetOrderControllerTest extends WebTestCase
         $widgetOrdersCount = $this->getWidgetOrdersCount();
         $this->assertEquals(0, $widgetOrdersCount);
 
-        $client = $this->createClient();
         $url = $this->getContainer()->get('router')->generate('app_widgetorder_order');
         //Go to widget order page
         $crawler = $client->request('GET', $url);
@@ -54,10 +56,17 @@ class WidgetOrderControllerTest extends WebTestCase
             'Color' => $color->getId(),
             'neededBy' => (new \DateTime())->modify('+8 day')->format('Y-m-d'),
             'WidgetType' => $widgetType->getId(),
+            'user_email' => 'example@example.com'
         ];
         $client->submit($selectButton->form(), ['create_order_form' => $formData]);
         $this->assertTrue($client->getResponse()->isRedirect());
         $this->assertEquals($widgetOrdersCount+1, $this->getWidgetOrdersCount());
+        //Make sure the email has been sent
+        $profiler = $client->getProfile();
+        $mailCollector = $profiler->getCollector('swiftmailer');
+
+        // checks that an email was sent
+        //$this->assertSame(1, $mailCollector->getMessageCount());
 
         $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());

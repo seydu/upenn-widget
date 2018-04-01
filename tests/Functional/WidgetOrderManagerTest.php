@@ -74,6 +74,9 @@ class WidgetOrderManagerTest extends WebTestCase
         $this->assertEmpty($widgetOrder->getUser());
     }
 
+    /**
+     * Makes sure when valid data is sumitted, it is persisted
+     */
     public function testSave()
     {
         /**
@@ -92,11 +95,17 @@ class WidgetOrderManagerTest extends WebTestCase
         $widgetOrder->setWidgetType($widgetType);
         list($isValid, $errors) = $this->validate($widgetOrder);
         $this->assertTrue($isValid, (string)$errors);
+        $em = $this->getContainer()->get("doctrine")->getManager();
+        $countWidgetOrders = $em->getRepository(WidgetOrder::class)->count([]);
         $this->widgetOrderManager->save($widgetOrder);
+        $this->assertEquals($countWidgetOrders + 1, $em->getRepository(WidgetOrder::class)->count([]));
         $this->assertEmpty($widgetOrder->getUser());
     }
 
-
+    /**
+     * Make sure when an email is provided, a user is found or created and
+     * associated with the created orders
+     */
     public function testSaveWithUserEmail()
     {
         /**
@@ -126,6 +135,9 @@ class WidgetOrderManagerTest extends WebTestCase
         $this->assertEquals($readUser->getId(), $widgetOrder->getUser()->getId());
     }
 
+    /**
+     * Make sure when a user is provided, the order is associated to them
+     */
     public function testSaveWithUser()
     {
         /**
@@ -153,12 +165,11 @@ class WidgetOrderManagerTest extends WebTestCase
         $this->assertEquals($user, $widgetOrder->getUser());
     }
 
+    /**
+     * Make sure generated message contains the required information
+     */
     public function testGenerateConfirmationMessage()
     {
-        /**
-         * @var USer
-         */
-        $user = $this->fixtures->getReference('User-superuser');
         /**
          * @var Color
          */
@@ -186,6 +197,5 @@ class WidgetOrderManagerTest extends WebTestCase
         );
         $this->assertContains($quantityAndNames, $message);
         $this->assertContains('by '.$widgetOrder->getNeededBy()->format('D, d M Y'), $message);
-
     }
 }

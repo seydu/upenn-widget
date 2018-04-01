@@ -2,7 +2,6 @@
 
 namespace App\Tests\Functional;
 
-
 use App\Entity\Color;
 use App\Entity\WidgetOrder;
 use App\Entity\WidgetType;
@@ -73,7 +72,7 @@ class WidgetOrderControllerTest extends WebTestCase
      *
      * It sets correct values for all fields but the date it is needed
      */
-    public function __testFormValidation()
+    public function testFormValidation()
     {
         $fixtures = $this->loadFixtures([
             UserData::class,
@@ -105,7 +104,6 @@ class WidgetOrderControllerTest extends WebTestCase
          */
         $widgetType = $fixtures->getReference('WidgetType-widget');
 
-
         $formData = [
             'quantity' => 3,
             'Color' => $color->getId(),
@@ -113,10 +111,13 @@ class WidgetOrderControllerTest extends WebTestCase
             'WidgetType' => $widgetType->getId(),
         ];
         $client->submit($selectButton->form(), ['create_order_form' => $formData]);
-        //Only the invalid data will cause submission failure
+        //Only the invalid date will cause submission failure
         $this->assertFalse($client->getResponse()->isRedirect());
     }
 
+    /**
+     * @return int
+     */
     private function getWidgetOrdersCount()
     {
         /**

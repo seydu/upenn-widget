@@ -53,6 +53,12 @@ class WidgetOrder
     private $WidgetType;
 
     /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\WidgetOrderStatus", inversedBy="WidgetOrders")
+     * @ORM\JoinColumn(name="widget_order_status_id", referencedColumnName="id", nullable=false)
+     */
+    private $Status;
+
+    /**
      * @param mixed $quantity
      * @return WidgetOrder
      */
@@ -103,6 +109,16 @@ class WidgetOrder
     }
 
     /**
+     * @param WidgetOrderStatus $Status
+     */
+    public function setStatus(WidgetOrderStatus $Status)
+    {
+        $this->Status = $Status;
+    }
+
+
+
+    /**
      * @return mixed
      */
     public function getId()
@@ -148,6 +164,14 @@ class WidgetOrder
     public function getWidgetType()
     {
         return $this->WidgetType;
+    }
+
+    /**
+     * @return WidgetOrderStatus
+     */
+    public function getStatus()
+    {
+        return $this->Status;
     }
 
 

@@ -9,6 +9,8 @@ use App\Entity\WidgetType;
 use App\Manager\WidgetOrderManager;
 use App\Tests\DataFixtures\ColorData;
 use App\Tests\DataFixtures\UserData;
+use App\Tests\DataFixtures\WidgetOrderData;
+use App\Tests\DataFixtures\WidgetOrderStatusData;
 use App\Tests\DataFixtures\WidgetTypeData;
 use Doctrine\Common\DataFixtures\ReferenceRepository;
 use Doctrine\Common\Persistence\ObjectManager;
@@ -41,7 +43,9 @@ class WidgetOrderManagerTest extends WebTestCase
         $this->fixtures = $this->loadFixtures([
             UserData::class,
             ColorData::class,
-            WidgetTypeData::class
+            WidgetTypeData::class,
+            WidgetOrderStatusData::class,
+            WidgetOrderData::class,
 
         ])->getReferenceRepository();
     }

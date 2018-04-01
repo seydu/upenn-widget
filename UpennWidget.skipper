@@ -23,6 +23,7 @@
       <field name="user_id" type="integer" uuid="82e11236-6f15-4116-94cc-d59308c571ae"/>
       <field name="color_id" type="integer" required="true" uuid="8be01fca-f36a-4b23-84b1-f77f11e3231e"/>
       <field name="widget_type_id" type="integer" required="true" uuid="f02657e4-67e4-4348-a1f5-d88e890c65ea"/>
+      <field name="widget_order_status_id" type="integer" required="true" uuid="9caf184d-214b-4559-81e6-b705a2636234"/>
     </entity>
     <association from="\App\Entity\WidgetOrder" to="\App\Entity\User" caption="User WidgetOrder" owner-alias="WidgetOrders" inverse-alias="User" many-owner="true" many-inverse="false" uuid="987becae-3ec7-47a7-9468-bc4e70912fcf">
       <association-field from="user_id" to="id"/>
@@ -33,6 +34,15 @@
     <association from="\App\Entity\WidgetOrder" to="\App\Entity\WidgetType" caption="WidgetType WidgetOrder" owner-alias="WidgetOrders" inverse-alias="WidgetType" many-owner="true" many-inverse="false" parent-required="true" uuid="b212c1f2-4acf-4c33-8745-c5419c4ef9d2">
       <association-field from="widget_type_id" to="id"/>
     </association>
+    <association from="\App\Entity\WidgetOrder" to="\App\Entity\WidgetOrderStatus" caption="WidgetOrderStatus WidgetOrder" owner-alias="WidgetOrders" inverse-alias="Status" many-owner="true" many-inverse="false" parent-required="true" uuid="ced1da50-4693-4caf-a1a1-b4917f354483">
+      <association-field from="widget_order_status_id" to="id"/>
+    </association>
+    <entity name="\App\Entity\WidgetOrderStatus" local-name="WidgetOrderStatus" namespace="\App\Entity" uuid="d51f54a1-6261-4a4d-bf80-beea1667ce91">
+      <field name="id" type="integer" required="true" unique="true" primary="true" auto-increment="true" uuid="b6e37644-afa4-414d-a034-70d600964194"/>
+      <field name="name" type="string" size="255" required="true" unique="true" uuid="c3b27fd8-0459-4353-845a-4244a463002e"/>
+      <field name="weight" type="integer" uuid="983686a4-77e1-4434-85b1-9818af5fe9ca"/>
+      <field name="code" type="string" required="true" unique="true" uuid="323c9dbe-7164-465b-871e-031e27e7a44c"/>
+    </entity>
     <orm-attributes>
       <attribute name="filename-format">entity-name-only</attribute>
     </orm-attributes>
@@ -41,11 +51,13 @@
     <association uuid="09368865-8d1c-4e80-a3c5-47209102bf4c" color="#969696"/>
     <association uuid="987becae-3ec7-47a7-9468-bc4e70912fcf" color="#969696"/>
     <association uuid="b212c1f2-4acf-4c33-8745-c5419c4ef9d2" color="#969696"/>
+    <association uuid="ced1da50-4693-4caf-a1a1-b4917f354483" color="#969696"/>
     <entity uuid="4aedeb9e-e7ca-42aa-8b49-f571367b9230" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="260" position-y="22" size-x="0" size-x2="93" size-y="0" size-y2="59"/>
     <entity uuid="87212fe9-e347-40cf-9203-c38048009e0c" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="10" position-y="20"/>
-    <entity uuid="9a964f91-c232-4ff8-8ca5-7d5599e2c485" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="516" position-y="30" size-x="0" size-x2="93" size-y="0" size-y2="59"/>
-    <entity uuid="e2c86679-a4b3-4377-a2d7-2b8438782069" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="111" position-y="183" size-x="0" size-x2="20" size-y="0" size-y2="20"/>
-    <module uuid="991e1f16-a8fa-43b2-ae2f-2ac02ba36f04" bg-color="#FDEBEF" position-x="61" position-y="72" size-x="11" size-x2="727" size-y="22" size-y2="396"/>
-    <project uuid="b5b4b953-4f2d-4a4a-abbf-0e421a14a20d" size-x="0" size-x2="838" size-y="0" size-y2="570"/>
+    <entity uuid="9a964f91-c232-4ff8-8ca5-7d5599e2c485" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="409" position-y="20" size-x="0" size-x2="93" size-y="0" size-y2="59"/>
+    <entity uuid="d51f54a1-6261-4a4d-bf80-beea1667ce91" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="583" position-y="18" size-x="0" size-x2="98" size-y="0" size-y2="59"/>
+    <entity uuid="e2c86679-a4b3-4377-a2d7-2b8438782069" bg-color="#FFFFFF" hdr-color="#D2D2D2" position-x="111" position-y="182" size-x="0" size-x2="120" size-y="0" size-y2="101"/>
+    <module uuid="991e1f16-a8fa-43b2-ae2f-2ac02ba36f04" bg-color="#FDEBEF" position-x="61" position-y="72" size-x="11" size-x2="793" size-y="22" size-y2="396"/>
+    <project uuid="b5b4b953-4f2d-4a4a-abbf-0e421a14a20d" size-x="0" size-x2="904" size-y="0" size-y2="570"/>
   </visual-data>
 </skipper>

@@ -5,6 +5,7 @@ namespace App\Manager;
 
 use App\Entity\User;
 use App\Entity\WidgetOrder;
+use App\Entity\WidgetOrderStatus;
 use Doctrine\Common\Persistence\ObjectManager;
 use Twig\Environment;
 
@@ -60,6 +61,19 @@ class WidgetOrderManager
     }
 
     /**
+     * @return WidgetOrderStatus
+     * @throws \Exception
+     */
+    private function getDafaultStatus()
+    {
+        $status = $this->objectManager->getRepository(WidgetOrderStatus::class)
+            ->findOneBy(['code' => 'PLACED']);
+        if(!$status) {
+            throw new \Exception("No order status with code 'PLACED' found");
+        }
+        return $status;
+    }
+    /**
      * @param WidgetOrder $widgetOrder
      * @param null $user
      */
@@ -67,6 +81,10 @@ class WidgetOrderManager
     {
         if($user) {
             $widgetOrder->setUser($this->processUser($widgetOrder, $user));
+        }
+        //When no status is set, set the default one (PLACED)
+        if(!$widgetOrder->getStatus()) {
+            $widgetOrder->setStatus($this->getDafaultStatus());
         }
         $this->objectManager->persist($widgetOrder);
         $this->objectManager->flush();

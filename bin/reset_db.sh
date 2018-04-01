@@ -36,3 +36,7 @@ echo "Making a copy for tests : $test_database_path"
 cp $database_path $test_database_path
 check_errs $? ${BASH_SOURCE[0]} $LINENO
 
+echo "Loading fixtures"
+$CONSOLE doctrine:fixtures:load -v -n
+check_errs $? ${BASH_SOURCE[0]} $LINENO
+

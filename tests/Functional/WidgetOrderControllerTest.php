@@ -7,6 +7,7 @@ use App\Entity\WidgetOrder;
 use App\Entity\WidgetType;
 use App\Tests\DataFixtures\ColorData;
 use App\Tests\DataFixtures\UserData;
+use App\Tests\DataFixtures\WidgetOrderStatusData;
 use App\Tests\DataFixtures\WidgetTypeData;
 use Doctrine\ORM\EntityManager;
 use Liip\FunctionalTestBundle\Test\WebTestCase;
@@ -25,7 +26,8 @@ class WidgetOrderControllerTest extends WebTestCase
         $fixtures = $this->loadFixtures([
             UserData::class,
             ColorData::class,
-            WidgetTypeData::class
+            WidgetTypeData::class,
+            WidgetOrderStatusData::class,
         ])->getReferenceRepository();
         $widgetOrdersCount = $this->getWidgetOrdersCount();
         $this->assertEquals(0, $widgetOrdersCount);

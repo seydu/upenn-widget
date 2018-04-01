@@ -170,6 +170,7 @@ class WidgetOrderControllerTest extends WebTestCase
         //Check for presence of the details ul
         $containerUl = $crawler->filter('ul.order-details');
         $this->assertEquals(1, $containerUl->count());
+        $this->assertEquals(6, $containerUl->filter('li')->count());
 
         //Test for the presence of the link to go back
         $backLinks = $crawler->filter('a.back-link');

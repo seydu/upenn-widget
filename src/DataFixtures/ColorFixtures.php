@@ -11,14 +11,15 @@ class ColorFixtures extends Fixture
     public function load(ObjectManager $manager)
     {
         $source = [
-            ['name' => 'Red'],
-            ['name' => 'Blue'],
-            ['name' => 'Yellow'],
+            ['name' => 'Red', 'code' => 'red'],
+            ['name' => 'Blue', 'code' => 'blue'],
+            ['name' => 'Yellow', 'code' => 'yellow'],
         ];
         foreach ($source as $data) {
-            $item = new Color();
-            $item->setName($data['name']);
-            $manager->persist($item);
+            $record = new Color();
+            $record->setName($data['name']);
+            $manager->persist($record);
+            $this->setReference("Color-{$data['code']}", $record);
         }
         $manager->flush();
     }

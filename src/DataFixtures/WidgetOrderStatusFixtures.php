@@ -6,7 +6,7 @@ use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\Persistence\ObjectManager;
 
 
-class WidgerOrderStatusFixures extends Fixture
+class WidgetOrderStatusFixtures extends Fixture
 {
     public function load(ObjectManager $manager)
     {
@@ -19,6 +19,7 @@ class WidgerOrderStatusFixures extends Fixture
             $item = new WidgetOrderStatus();
             $item->setName($data['name']);
             $item->setCode($data['code']);
+            $this->setReference("WidgetOrderStatus-{$data['code']}", $item);
             $manager->persist($item);
         }
         $manager->flush();

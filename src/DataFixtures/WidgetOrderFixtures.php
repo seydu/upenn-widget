@@ -1,22 +1,23 @@
 <?php
-namespace App\Tests\DataFixtures;
+namespace App\DataFixtures;
 
+use App\Entity\Color;
 use App\Entity\WidgetOrder;
+use App\Entity\WidgetOrderStatus;
 use App\Entity\WidgetType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Doctrine\Common\Persistence\ObjectManager;
 
 
-class WidgetOrderData extends Fixture implements DependentFixtureInterface
+class WidgetOrderFixtures extends Fixture implements DependentFixtureInterface
 {
     public function getDependencies()
     {
         return array(
-            UserData::class,
-            ColorData::class,
-            WidgetTypeData::class,
-            WidgetOrderStatusData::class,
+            ColorFixtures::class,
+            WidgetTypeFixtures::class,
+            WidgetOrderStatusFixtures::class,
         );
     }
 
@@ -40,7 +41,7 @@ class WidgetOrderData extends Fixture implements DependentFixtureInterface
              */
             $widgetType = $this->getReference('WidgetType-'.$data['WidgetType']);
             /**
-             * @var Color
+             * @var WidgetOrderStatus
              */
             $status = $this->getReference('WidgetOrderStatus-'.$data['Status']);
 

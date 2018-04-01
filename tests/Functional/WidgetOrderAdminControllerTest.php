@@ -143,5 +143,10 @@ class WidgetOrderAdminControllerTest extends WebTestCase
         $freshWidgetOrder = $em->getRepository(WidgetOrder::class)->find($widgetOrder->getId());
         //Check if the status has change
         $this->assertEquals($newStatus->getId(), $freshWidgetOrder->getStatus()->getId());
+
+        //Follow the redirect and check for confirmation message
+        $crawler = $client->followRedirect();
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
+        $this->assertGreaterThan(0, $crawler->filter('div.flash-notice')->count());
     }
 }

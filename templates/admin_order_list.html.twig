@@ -1,6 +1,5 @@
 {% extends 'base.html.twig' %}
 {% block body %}
-
     <div>
         {% for message in app.flashes('notice') %}
             <div class="flash-notice">
@@ -27,7 +26,7 @@
                         <td>{{ order.color }}</td>
                         <td>{{ order.neededBy|date("D, d M Y")  }}</td>
                         <td>{{ order.widgetType }}</td>
-                        <td><a title="Change this status" href="{{ url('app_widgetorderadmin_setstatus', {'id': order.id}) }}">{{ order.status }}</a></td>
+                        <td>{{ order.status }} (<a title="Change this status" href="{{ url('app_widgetorderadmin_setstatus', {'id': order.id}) }}">Change</a>)</td>
                     </tr>
                 {% endfor %}
             </table>
@@ -38,5 +37,4 @@
     <div>
         <a title="Go to home page" href="{{ url('app_index_index') }}">Home</a>
     </div>
-
 {% endblock %}

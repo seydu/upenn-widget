@@ -19,6 +19,7 @@ class WidgetOrderStatusData extends Fixture
             $item = new WidgetOrderStatus();
             $item->setName($data['name']);
             $item->setCode($data['code']);
+            $this->setReference("WidgetOrderStatus-{$data['code']}", $item);
             $manager->persist($item);
         }
         $manager->flush();

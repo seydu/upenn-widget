@@ -21,7 +21,7 @@
                 </tr>
                 {% for order in orders %}
                     <tr>
-                        <td>{{ order.id }}</td>
+                        <td><a title="View order details" href="{{ url('app_widgetorderadmin_orderdetails', {'id': order.id}) }}">{{ order.id }}</a></td>
                         <td>{{ order.quantity }}</td>
                         <td>{{ order.color }}</td>
                         <td>{{ order.neededBy|date("D, d M Y")  }}</td>

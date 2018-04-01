@@ -1,11 +1,13 @@
-<h3>Details of your Widget Order</h3>
-<ul>
+<h3>Widget Order Details</h3>
+<ul class="order-details">
     <li>ID: {{ order.id }}</li>
     <li>Quantity: {{ order.quantity }}</li>
     <li>Color: {{ order.color }}</li>
     <li>Widget Type: {{ order.widgetType }}</li>
     <li>Needed by Date: {{ order.neededBy|date("D, d M Y")  }} </li>
-    <li>Status: </li>
+    <li>Status: {{ order.status }}</li>
 </ul>
+
+<div><a href="{{ back.url }}" class="back-link" title="{{ back.title }}">{{ back.label }}</a></div>
 
 

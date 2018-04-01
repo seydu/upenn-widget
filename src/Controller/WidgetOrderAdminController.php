@@ -88,4 +88,30 @@ class WidgetOrderAdminController extends Controller
             'form' => $form->createView()
         ]);
     }
+
+
+    /**
+     * @Route("/admin/order/details/{id}")
+     *
+     * @param Request $request
+     * @param int $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|\Symfony\Component\HttpFoundation\Response
+     */
+    public function orderDetails(Request $request, $id)
+    {
+        $widgetOrder = $this->getDoctrine()
+            ->getRepository(WidgetOrder::class)->find($id);
+        if(!$widgetOrder) {
+            throw new NotFoundHttpException("Cannot find a widget order with id '$id'");
+        }
+
+        return $this->render('order_details.html.twig', [
+            'order' => $widgetOrder,
+            'back' => [
+                'label' => 'Orders',
+                'url' => $this->get('router')->generate('app_widgetorderadmin_index'),
+                'title' => 'Back to the list of orders',
+            ]
+        ]);
+    }
 }

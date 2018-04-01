@@ -72,7 +72,12 @@ class WidgetOrderController extends Controller
         }
 
         return $this->render('order_details.html.twig', [
-            'order' => $widgetOrder
+            'order' => $widgetOrder,
+            'back' => [
+                'label' => 'Place order',
+                'url' => $this->get('router')->generate('app_widgetorder_order'),
+                'title' => 'Order again',
+            ]
         ]);
     }
 }

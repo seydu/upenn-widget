@@ -89,7 +89,6 @@ class WidgetOrderAdminControllerTest extends WebTestCase
     }
 
 
-
     /**
      * Make sure an order will be added when submitted data is correct,
      * user will be redirected and a confirmation message is displayed
@@ -148,5 +147,43 @@ class WidgetOrderAdminControllerTest extends WebTestCase
         $crawler = $client->followRedirect();
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
         $this->assertGreaterThan(0, $crawler->filter('div.flash-notice')->count());
+    }
+
+    /**
+     * Make sure an order will be added when submitted data is correct,
+     * user will be redirected and a confirmation message is displayed
+     */
+    public function testOrderDetails()
+    {
+        $client = $this->createClient();
+
+        $fixtures = $this->loadFixtures([
+            UserData::class,
+            ColorData::class,
+            WidgetTypeData::class,
+            WidgetOrderStatusData::class,
+            WidgetOrderData::class,
+        ])->getReferenceRepository();
+        /**
+         * @var WidgetOrder $widgetOrder
+         */
+        $widgetOrder = $fixtures->getReference('WidgetOrder-0');
+
+        $url = $this->getContainer()
+            ->get('router')
+            ->generate('app_widgetorderadmin_orderdetails', ['id' => $widgetOrder->getId()]);
+        //Go to widget order page
+        $crawler = $client->request('GET', $url);
+
+        //Check for presence of the details ul
+        $containerUl = $crawler->filter('ul.order-details');
+        $this->assertEquals(1, $containerUl->count());
+
+        //Test for the presence of the link to go back
+        $backLinks = $crawler->filter('a.back-link');
+        $this->assertGreaterThan(0, $backLinks->count());
+
+        $client->click($backLinks->link());
+        $this->assertEquals(200, $client->getResponse()->getStatusCode());
     }
 }

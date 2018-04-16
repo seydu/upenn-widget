@@ -3,8 +3,7 @@
 This is an implementation of [Widget exercise
 ](https://gist.github.com/barendt/4dbfeeda803fc47677be).
 
-
-###A/ How to run the application
+### How to run the application
 This application is built on Symfony 3.4, installed by Symfony Flex.
 It uses a SQL database. The code comes with a SQLite database loaded with fixtures data.
 But it is possible to rebuild the database and reload the fixtures by running the script
@@ -17,7 +16,7 @@ Goto to ​http://upenn-widget.ld:8000​ (it assumes ​ upenn-widget ​ is th
 and the port is 8000).
 This page contains two links: one for creating orders and one for administration.
 
-###B/ Emails
+### Emails
 Emails are handed over to the mailer service. This service is configured to only send the emails
 to the logger. In a production environment this service will be configured to send real emails.
 Create an order, then go to the profiler page
@@ -27,7 +26,7 @@ url ​http://upenn-widget.ld:8000/order​). Click on the ‘E-mails’ tab on 
 sent emails. There will be one email sent. Select its ‘Rendered content’ tab to access the
 rendered HTML.
 
-###C/ Testing
+### Testing
 Balancing tests is hard (test enough to cover specifications and capture breaks introduced by changes but don’t target
 100% test coverage). I usually follow the principal of not unit testing very simple application logic
 and relying on functional tests for it. This is one of the benefits of using well tested libraries and
@@ -42,7 +41,7 @@ To run the test, execute this command from the project root:
 ```bash
 ./bin/phpunit
 ```
-### D/ Designing the database
+### Designing the database
 I used ​Skipper​ to design the database. The editor is not free but the visualizer is. There is a
 [UpennWidget.skipper](/UpennWidget.skipper) file at the project root that can be used to view an interactive version. The
 image file [UpennWidget.png](/UpennWidget.png) is a static export of the UML. Skipper can export the schema into

@@ -15,9 +15,10 @@ class ColorData extends Fixture
             ['name' => 'Blue', 'code' => 'blue'],
             ['name' => 'Yellow', 'code' => 'yellow'],
         ];
-        foreach ($source as $data) {
+        foreach ($source as $position => $data) {
             $record = new Color();
             $record->setName($data['name']);
+            $record->setWeight($data['weight'] ?? $position);
             $manager->persist($record);
             $this->setReference("Color-{$data['code']}", $record);
         }

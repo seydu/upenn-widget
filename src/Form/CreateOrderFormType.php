@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\WidgetOrder;
+use Doctrine\ORM\EntityRepository;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
@@ -19,7 +20,16 @@ class CreateOrderFormType extends AbstractType
             ->add(
                 'Color',
                 null,
-                ['required' => true]
+                [
+                    'required' => true,
+                    'query_builder' => function (EntityRepository $er) {
+                        return $er->createQueryBuilder('u')
+                            ->orderBy('u.weight', 'ASC');
+                    },
+                    'attr' => [
+                        'class' => 'color',
+                    ],
+                ]
             )
             ->add(
             'neededBy',

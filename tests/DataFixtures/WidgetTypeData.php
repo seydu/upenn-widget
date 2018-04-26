@@ -15,9 +15,10 @@ class WidgetTypeData extends Fixture
             ['name' => 'Widget Pro', 'code' => 'widget-pro'],
             ['name' => 'Widget XTreme', 'code' => 'widget-xtreme'],
         ];
-        foreach ($source as $data) {
+        foreach ($source as $position => $data) {
             $record = new WidgetType();
             $record->setName($data['name']);
+            $record->setWeight($data['weight'] ?? $position);
             $manager->persist($record);
             $this->setReference("WidgetType-{$data['code']}", $record);
         }
